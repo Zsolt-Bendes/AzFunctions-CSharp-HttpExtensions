@@ -29,4 +29,5 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
       with:
         # NuGet API Key to configure.
-        nuget-api-key-source: ${{secrets.NUGETAPIKEY}}       
+        nuget-api-key: ${{secrets.NUGETAPIKEY}}
+    - run: nuget restore HttpExtensions.sln
