@@ -31,4 +31,4 @@ jobs:
         # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: src/HttpExtensions/HttpExtensions.csproj
         # NuGet package id, used for version detection & defaults to project name
-        NUGET_KEY: ${{hsecrets.NUGETAPIKEY}}
+        NUGET_KEY: ${{secrets.NUGETAPIKEY}}
