@@ -1,4 +1,5 @@
 # Http extensions methods for Azure Functions C#
+[![.NET](https://github.com/Zsolt-Bendes/AzFunctions-CSharp-HttpExtensions/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Zsolt-Bendes/AzFunctions-CSharp-HttpExtensions/actions/workflows/dotnet.yml)
 ## Authorization Extension
 `string GetAuthorization(this HttpRequest req, string authenticationType)`
 
