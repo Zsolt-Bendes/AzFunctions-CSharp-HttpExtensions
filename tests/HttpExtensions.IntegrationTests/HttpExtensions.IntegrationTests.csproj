@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\HttpExtensions\HttpExtensions.csproj" />
+      <ProjectReference Include="..\HttpExtensions.TestHelpers\HttpExtensions.TestHelpers.csproj" />
     </ItemGroup>
 
 </Project>

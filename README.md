@@ -5,21 +5,21 @@
 
 Returns the Upn claim from `HttpRequest`.
 ## HttpRequest Extensions
-`Task<T> ParseJsonBodyAsync<T>(this HttpRequest request, AbstractValidator<T> validator)`
+`Task<T> ParseJsonBodyAsync<T>(this HttpRequest request, [AllowNull] AbstractValidator<T> validator = null)`
 
-Parses the request json into the specified model. For validation the method uses FluentValidator.
+Parses the request json into the specified model. Optionally the method can use FluentValidator for model validation.
 
-`IEnumerable<int> ParseIntegerList(this HttpRequest request, string queryKey)`
+`IEnumerable<int> ParseIntegerList(this HttpRequest request, string queryKey, string separator = ",")`
 
-Returns the list of `integer`s from query parameter.
+Returns the list of `integer`s from query parameter. The expected format is key=1,2.
 
-`IEnumerable<double> ParseDoubleList(this HttpRequest request, string queryKey)`
+`IEnumerable<double> ParseDoubleList(this HttpRequest request, string queryKey, string separator = ",")`
 
 Returns the list of `double` from query parameter.
 
-`IEnumerable<string> ParseStringList(this HttpRequest request, string queryKey)`
+`IEnumerable<string> ParseStringList(this HttpRequest request, string queryKey, string separator = ",")`
 
-Returns the list of `string`s from query parameter.
+Returns the list of `string`s from query parameter. The expected format is `key=foo,bar`.
 
 `PaginationData GetPaginationData(
             this HttpRequest request,

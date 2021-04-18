@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpExtensions.Domain.UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpExtensions.IntegrationTests", "tests\HttpExtensions.IntegrationTests\HttpExtensions.IntegrationTests.csproj", "{1557E50E-B46C-4594-AEF2-A86FCB50E783}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpExtensions.TestHelpers", "tests\HttpExtensions.TestHelpers\HttpExtensions.TestHelpers.csproj", "{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,15 @@ Global
 		{1557E50E-B46C-4594-AEF2-A86FCB50E783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1557E50E-B46C-4594-AEF2-A86FCB50E783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1557E50E-B46C-4594-AEF2-A86FCB50E783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7FDA4AC2-6A69-4EE1-AF5E-E0C8E7508FB2} = {3292FC1E-2B79-4F8D-91DE-6C5F4229B3C1}
 		{89E60EC3-AD78-459F-919B-A4313A6C0202} = {08D1A89F-375B-4975-9B94-891A4B777CBA}
 		{1557E50E-B46C-4594-AEF2-A86FCB50E783} = {08D1A89F-375B-4975-9B94-891A4B777CBA}
+		{FCA5B1E7-88D8-4DD0-9C61-7F866F371ED0} = {08D1A89F-375B-4975-9B94-891A4B777CBA}
 	EndGlobalSection
 EndGlobal

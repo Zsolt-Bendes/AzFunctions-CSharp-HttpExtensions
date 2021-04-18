@@ -35,7 +35,7 @@ namespace HttpExtensions.Extensions
         }
 
         /// <summary>
-        /// Parses a list of integers from query string. The expected format is `key=1.2,1.1`.
+        /// Parses a list of integers from query string. The expected format is `key=1,2`.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="queryKey">The parameter name that holds the values.</param>
@@ -77,7 +77,7 @@ namespace HttpExtensions.Extensions
         }
 
         /// <summary>
-        /// Parses a list of strings from query string. The expected format is `key=str1,str2`.
+        /// Parses a list of strings from query string. The expected format is `key=foo,bar`.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="queryKey">The parameter name that holds the values.</param>
@@ -96,12 +96,12 @@ namespace HttpExtensions.Extensions
         }
 
         /// <summary>
-        ///     Returns pagination model.
+        /// Returns pagination model.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="indexParameterName">Name of the query parameter that holds the index value.</param>
         /// <param name="sizeParameterName">Name of the query parameter that holds the page size value.</param>
-        /// <param name="maxPageSize">Size of the requested page.</param>
+        /// <param name="maxPageSize">Sets a limit for max pagination size.(For avoiding bots that query with int.Max).</param>
         /// <returns></returns>
         public static PaginationData GetPaginationData(
             this HttpRequest request,

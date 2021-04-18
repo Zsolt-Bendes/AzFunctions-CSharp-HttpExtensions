@@ -1,12 +1,18 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FluentAssertions;
+using FluentValidation;
 using Xunit;
 using HttpExtensions.Extensions;
+using HttpExtensions.TestHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Primitives;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace HttpExtensions.IntegrationTests
 {
@@ -74,7 +80,7 @@ namespace HttpExtensions.IntegrationTests
             result.Should().HaveCount(2);
             result.First().Should().Be("value1");
         }
-        
+
         [Fact]
         public void ParseStringList_WithNonExistingKey_ShouldReturnParsedValues()
         {
@@ -88,7 +94,7 @@ namespace HttpExtensions.IntegrationTests
             // assert         
             result.Should().BeEmpty();
         }
-        
+
         [Fact]
         public void ParseIntegerList_WithExistingKeys_ShouldReturnParsedValues()
         {
@@ -104,7 +110,7 @@ namespace HttpExtensions.IntegrationTests
             result.Should().HaveCount(2);
             result.First().Should().Be(1);
         }
-        
+
         [Fact]
         public void ParseIntegerList_WithNonExistingKey_ShouldReturnParsedValues()
         {
@@ -118,7 +124,7 @@ namespace HttpExtensions.IntegrationTests
             // assert         
             result.Should().BeEmpty();
         }
-        
+
         [Fact]
         public void ParseIntegerList_WithNonIntegerQuery_ShouldReturnParsedValues()
         {
@@ -134,7 +140,7 @@ namespace HttpExtensions.IntegrationTests
             result.Should().HaveCount(1);
             result.First().Should().Be(2);
         }
-        
+
         [Fact]
         public void ParseDoubleList_WithExistingKeys_ShouldReturnParsedValues()
         {
@@ -150,7 +156,7 @@ namespace HttpExtensions.IntegrationTests
             result.Should().HaveCount(2);
             result.First().Should().Be(1.1d);
         }
-        
+
         [Fact]
         public void ParseDoubleList_WithNonExistingKey_ShouldReturnParsedValues()
         {
@@ -164,7 +170,7 @@ namespace HttpExtensions.IntegrationTests
             // assert         
             result.Should().BeEmpty();
         }
-        
+
         [Fact]
         public void ParseDoubleList_WithNonIntegerQuery_ShouldReturnParsedValues()
         {
@@ -179,6 +185,85 @@ namespace HttpExtensions.IntegrationTests
             result.Should().NotBeEmpty();
             result.Should().HaveCount(1);
             result.First().Should().Be(2.3d);
+        }
+
+        [Fact]
+        public async Task ParseJsonBodyAsync_WithSampleJsonAndWithNoValidator_ShouldReturnParsedModel()
+        {
+            // arrange
+            var sampleDto = Mother.SampleDto
+                .Random
+                .Build();
+            var sampleAsJson = JsonSerializer.Serialize(sampleDto);
+            
+            var ms = new MemoryStream();
+            await using var writer = new StreamWriter(ms);
+            await writer.WriteAsync(sampleAsJson);
+            await writer.FlushAsync();
+            ms.Position = 0;
+
+            var request = A.Fake<HttpRequest>();
+            A.CallTo(() => request.Body)
+                .Returns(ms);
+            
+            // act
+            var parsedModel = await request.ParseJsonBodyAsync<SampleDto>();
+        
+            // assert
+            parsedModel.Should().NotBeNull();
+        }
+        
+        [Fact]
+        public async Task ParseJsonBodyAsync_WithSampleJsonAndWithValidator_ShouldReturnParsedModel()
+        {
+            // arrange
+            var sampleDto = Mother.SampleDto
+                .Random
+                .Build();
+            var validator = A.Fake<AbstractValidator<SampleDto>>();
+            var sampleAsJson = JsonSerializer.Serialize(sampleDto);
+            
+            var ms = new MemoryStream();
+            await using var writer = new StreamWriter(ms);
+            await writer.WriteAsync(sampleAsJson);
+            await writer.FlushAsync();
+            ms.Position = 0;
+
+            var request = A.Fake<HttpRequest>();
+            A.CallTo(() => request.Body)
+                .Returns(ms);
+        
+            // act
+            var parsedModel = await request.ParseJsonBodyAsync(validator);
+        
+            // assert
+            parsedModel.Should().NotBeNull();
+        }
+        
+        [Fact]
+        public async Task ParseJsonBodyAsync_WithValidatorAndInvalidData_ShouldThrowValidationException()
+        {
+            // arrange
+            var sampleDto = Mother.SampleDto
+                .Random
+                .WithId(Guid.Empty)
+                .Build();
+
+            var sampleAsJson = JsonSerializer.Serialize(sampleDto);
+            
+            var ms = new MemoryStream();
+            await using var writer = new StreamWriter(ms);
+            await writer.WriteAsync(sampleAsJson);
+            await writer.FlushAsync();
+            ms.Position = 0;
+
+            var request = A.Fake<HttpRequest>();
+            A.CallTo(() => request.Body)
+                .Returns(ms);
+
+            // act && assert
+            FluentActions.Awaiting(() => request.ParseJsonBodyAsync(new SampleDtoValidator())).Should()
+                .Throw<ValidationException>();
         }
     }
 }
