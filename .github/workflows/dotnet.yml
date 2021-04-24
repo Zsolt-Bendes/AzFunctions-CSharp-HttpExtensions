@@ -24,6 +24,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Pack with dotnet
-      run: dotnet pack src/src/HttpExtensions.csproj --output nuget-packages --configuration Release
+      run: dotnet pack src/HttpExtensions.csproj --output nuget-packages --configuration Release
     - name: Push with dotnet
       run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGETAPIKEY }} --source https://api.nuget.org/v3/index.json
