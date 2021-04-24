@@ -23,11 +23,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Setup NuGet.exe for use with actions
-      # You may pin to the exact commit or the version.
-      # uses: NuGet/setup-nuget@04b0c2b8d1b97922f67eca497d7cf0bf17b8ffe1
-      uses: NuGet/setup-nuget@v1.0.5
-      with:
-        # NuGet API Key to configure.
-        nuget-api-key: ${{secrets.NUGETAPIKEY}}
-    - run: nuget restore HttpExtensions.sln
+    - name: Pack with dotnet
+      run: dotnet pack src/src/HttpExtensions.csproj --output nuget-packages --configuration Release
+    - name: Push with dotnet
+      run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGETAPIKEY }} --source https://api.nuget.org/v3/index.json
