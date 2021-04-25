@@ -29,5 +29,5 @@ jobs:
         VERSION="${arrTag[2]}"
         VERSION="${VERSION//v}"
         echo "${VERSION}"
-        echo "${GITHUB_REF}"
+        echo ::set-output name=tag::${GITHUB_REF#refs/*/}
    
