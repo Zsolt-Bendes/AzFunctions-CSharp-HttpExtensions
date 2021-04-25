@@ -28,6 +28,7 @@ jobs:
         arrTag=(${GITHUB_REF//\// })
         VERSION="${arrTag[2]}"
         VERSION="${VERSION//v}"
+        echo "{VERSION}"
         dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION --output nuget-packages src/HttpExtensions/HttpExtensions.csproj
     - name: Push with dotnet
       run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGETAPIKEY }} --source https://api.nuget.org/v3/index.json
