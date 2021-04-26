@@ -1,6 +1,7 @@
 name: .NET
 
 on:
+  label: [ main ]
   push:
     branches: [ main ]
   pull_request:
